@@ -2,16 +2,16 @@
   
   <div class="grid-container">
     <div class="chat1">
-      <router-link class="item1" to="/register">Chat 1</router-link>
+      <router-link class="item1" to="/chat1">Chat 1</router-link>
     </div>
     <div class="chat2">
-      <router-link class="item2" to="/register">Chat 2</router-link>
+      <router-link class="item2" to="/chat2">Chat 2</router-link>
     </div>
     <div class="chat3">
-    <router-link class="item3" to="/register">Chat 3</router-link>
+    <router-link class="item3" to="/chat3">Chat 3</router-link>
     </div>
     <div class="chat4">
-    <router-link class="item4" to="/register">Chat 4</router-link>
+    <router-link class="item4" to="/chat4">Chat 4</router-link>
   </div>
   </div>
 </template>
