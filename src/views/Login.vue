@@ -1,4 +1,5 @@
 <template>
+
   <div
     class="view login"
     v-if="state.username === '' || state.username === null"
@@ -29,9 +30,7 @@
       </div>
     </form>
 
-    <!-- <form class="register-form" @submit.prevent="Register">
-      <input type="submit" value="Register" />
-    </form>  -->
+    
   </div>
 
   <div class="view chat" v-else>
@@ -85,25 +84,16 @@ export default {
       messages: [],
     });
     const Login = () => {
-      if (inputUsername.value != "" || inputUsername.value != null) {
+       if (inputUsername.value != "" || inputUsername.value != null) {
         state.username = inputUsername.value;
         inputUsername.value = "";
       }
-
       firebase
         .auth()
         .signInWithEmailAndPassword(email.value, password.value)
         .then((data) => console.log(data))
         .catch((err) => alert(err.message));
     };
-
-    //  const Register = () => {
-    //    const route = useRoute();
-    //    const user = ref("");
-    //    if(!user){
-    //      route.path == "/register";
-    //    }
-    //  }
 
     const Logout = () => {
       state.username = "";
@@ -161,7 +151,6 @@ export default {
 .view {
   display: flex;
   justify-content: center;
-  align-items: center;
   min-height: 100vh;
   background-color: #bbf157;
 
@@ -370,6 +359,7 @@ export default {
           font-size: 18px;
           font-weight: 700;
         }
+        
       }
     }
   }

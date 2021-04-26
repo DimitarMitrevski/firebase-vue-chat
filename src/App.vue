@@ -2,38 +2,68 @@
   <div>
     <header>
       <ul class="nav">
-        <li><router-link to="/">Home</router-link></li>
-        |
-        <li><router-link to="/about">About</router-link></li>
-        |
+        <li><router-link to="/login">Login</router-link></li> |
+        <li><router-link to="/rooms">Rooms</router-link></li> |
         <li><router-link to="/register">Register</router-link></li>
-        |
-        <li><router-link to="/login">Login</router-link></li>
+        
       </ul>
     </header>
-    <router-view></router-view>
+    <router-view/>
   </div>
 </template>
 
 <script>
+import {onBeforeMount} from 'vue';
+import {useRouter, useRoute} from 'vue-router';
+import firebase from 'firebase';
 export default {
-  name: "LayoutDefault",
-
-  data() {
-    return {
-      leftDrawerOpen: false,
-    };
-  },
-};
+  
+  setup(){
+    const router = useRouter();
+    const route = useRoute();
+    onBeforeMount(() => {
+      firebase.auth().onAuthStateChanged((user) => {
+        if(!user) {
+          router.replace('/login');
+        } else if (route.path == "/login" || route.path ==
+        '/register') {
+          router.replace('/');
+        }
+      });
+    });
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-header {
-  padding: 40px;
-  text-align: center;
+ul {
+    list-style-type: none;
+    padding: 40px;
+    text-align: center;
+    overflow: hidden;
+    background-color: #bbf157;
+}
+
+li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 10px 16px;
+    text-decoration: none;
+    width: 100px;
 }
 ul.nav li {
   display: inline-block;
   width: 100px;
 }
+
+li a:hover:not(.active) {
+    background-color: rgb(171, 238, 95);
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+
 </style>
