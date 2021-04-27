@@ -14,57 +14,18 @@
           placeholder="Enter your username"
         />
 
-        <label for="email">Email</label>
-        <input type="email" v-model="email" placeholder="Enter your username" />
-
         <label for="password">Password</label>
         <input
           type="password"
           v-model="password"
-          placeholder="Enter your username"
+          placeholder="Enter your password"
         />
 
-        <input type="submit" value="Login" />
-        <router-link class="green-btn" to="/register">Register</router-link>
+        <router-link class="blue-btn" to="/rooms">Login</router-link>
+        <br>
+        <router-link class="blue-btn" to="/register">Register</router-link>
       </div>
     </form>
-
-    
-  </div>
-
-  <div class="view chat" v-else>
-    <header>
-      <button class="logout" @click="Logout">Logout</button>
-      <h1>Welcome, {{ state.username }}</h1>
-    </header>
-
-    <section class="chat-box">
-      <div
-        v-for="message in state.messages"
-        :key="message.key"
-        :class="
-          message.username == state.username
-            ? 'message current-user'
-            : 'message'
-        "
-      >
-        <div class="message-inner">
-          <div class="username">{{ message.username }}</div>
-          <div class="content">{{ message.content }}</div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <form @submit.prevent="SendMessage">
-        <input
-          type="text"
-          v-model="inputMessage"
-          placeholder="Write a message..."
-        />
-        <input type="submit" value="Send" />
-      </form>
-    </footer>
   </div>
 </template>
 
@@ -74,7 +35,6 @@ import db from "../db";
 import firebase from "firebase";
 export default {
   setup() {
-    const email = ref("");
     const password = ref("");
     const inputUsername = ref("");
     const inputMessage = ref("");
@@ -83,15 +43,20 @@ export default {
       messages: [],
     });
     const Login = () => {
-       if (inputUsername.value != "" || inputUsername.value != null) {
+      if (inputUsername.value != "" || inputUsername.value != null) {
         state.username = inputUsername.value;
         inputUsername.value = "";
       }
+
       firebase
         .auth()
-        .signInWithEmailAndPassword(email.value, password.value)
-        .then((data) => console.log(data))
-        .catch((err) => alert(err.message));
+        .signInWithEmailAndPassword(this.inputUsername, this.password)
+        .then((user) => {
+          this.$router.push("/rooms");
+        })
+        .catch((e) => {
+          alert(e.message);
+        })
     };
 
     const Logout = () => {
@@ -125,7 +90,6 @@ export default {
       });
     });
     return {
-      email,
       password,
       inputUsername,
       Login,
@@ -151,7 +115,7 @@ export default {
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  background-color: #bbf157;
+  background-color: rgb(113, 192, 238);
 
   &.login {
     align-items: center;
@@ -200,15 +164,16 @@ export default {
           }
         }
         input[type="submit"],
-        .green-btn {
+        .blue-btn {
           appearance: none;
           border: none;
           outline: none;
           background: none;
+          text-decoration: none;
           display: block;
           width: 100%;
           padding: 10px 15px;
-          background-color: #b9eb46;
+          background-color: rgb(113, 192, 238);
           border-radius: 8px;
           color: #fff;
           font-size: 18px;
@@ -217,7 +182,7 @@ export default {
         }
         &:focus-within {
           label {
-            color: #b9eb46;
+            color: rgb(113, 192, 238);
           }
           input[type="text"] {
             background-color: #fff;
@@ -309,7 +274,7 @@ export default {
             .content {
               color: #fff;
               font-weight: 600;
-              background-color: #b9eb46;
+              background-color: rgb(113, 192, 238);
             }
           }
         }
@@ -353,12 +318,11 @@ export default {
           display: block;
           padding: 10px 15px;
           border-radius: 0px 8px 8px 0px;
-          background-color: #b9eb46;
+          background-color: rgb(113, 192, 238);
           color: #fff;
           font-size: 18px;
           font-weight: 700;
         }
-        
       }
     }
   }
