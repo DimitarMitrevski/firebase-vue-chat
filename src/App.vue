@@ -4,8 +4,8 @@
       <ul class="nav">
         <li><router-link to="/login">Login</router-link></li> |
         <li><router-link to="/rooms">Rooms</router-link></li> |
-        <li><router-link to="/register">Register</router-link></li> | 
-        <li><router-link to="/privateChat">PrivateChat</router-link></li>
+        <li><router-link to="/register">Register</router-link></li>
+        
       </ul>
     </header>
     <router-view/>
@@ -41,7 +41,7 @@ ul {
     padding: 40px;
     text-align: center;
     overflow: hidden;
-    background-color: #bbf157;
+    background-color: rgb(113, 192, 238);
 }
 
 li a {
@@ -58,7 +58,7 @@ ul.nav li {
 }
 
 li a:hover:not(.active) {
-    background-color: rgb(171, 238, 95);
+    background-color: rgb(113, 192, 238);
 }
 
 .active {
