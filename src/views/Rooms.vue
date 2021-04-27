@@ -22,7 +22,7 @@
   grid-template-columns: auto auto auto auto;
   grid-template-rows: auto auto auto auto;
   grid-gap: 20px;
-  background-color: #bbf157;
+  background-color: rgb(113, 192, 238);
   padding: 277px;
   margin: auto;
 }
