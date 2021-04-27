@@ -27,47 +27,10 @@
         />
 
         
-        <router-link class="green-btn" 
-        to="/register">Register</router-link>
+        <router-link class="blue-btn" 
+        to="/login">Register</router-link>
       </div>
-    </form>
-
-    
-  </div>
-
-  <div class="view chat" v-else>
-    <header>
-      <button class="logout" @click="Logout">Logout</button>
-      <h1>Welcome, {{ state.username }}</h1>
-    </header>
-
-    <section class="chat-box">
-      <div
-        v-for="message in state.messages"
-        :key="message.key"
-        :class="
-          message.username == state.username
-            ? 'message current-user'
-            : 'message'
-        "
-      >
-        <div class="message-inner">
-          <div class="username">{{ message.username }}</div>
-          <div class="content">{{ message.content }}</div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <form @submit.prevent="SendMessage">
-        <input
-          type="text"
-          v-model="inputMessage"
-          placeholder="Write a message..."
-        />
-        <input type="submit" value="Send" />
-      </form>
-    </footer>
+    </form>   
   </div>
 </template>
 
@@ -206,15 +169,16 @@ export default {
           }
         }
         input[type="submit"],
-        .green-btn {
+        .blue-btn {
           appearance: none;
           border: none;
           outline: none;
           background: none;
+          text-decoration: none;
           display: block;
           width: 100%;
           padding: 10px 15px;
-          background-color: #b9eb46;
+          background-color: rgb(113, 192, 238);
           border-radius: 8px;
           color: #fff;
           font-size: 18px;
