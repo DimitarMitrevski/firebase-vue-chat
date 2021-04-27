@@ -1,18 +1,11 @@
 <template>
-  <div
-    class="view login"
-    v-if="state.username === '' || state.username === null"
-  >
+  <div class="view login">
     <form class="login-form" @submit.prevent="Login">
       <div class="form-inner">
         <h1>Login to the chat</h1>
 
-        <label for="username">Username</label>
-        <input
-          type="text"
-          v-model="inputUsername"
-          placeholder="Enter your username"
-        />
+        <label for="username">Email</label>
+        <input type="email" v-model="email" placeholder="Enter your email" />
 
         <label for="password">Password</label>
         <input
@@ -21,8 +14,8 @@
           placeholder="Enter your password"
         />
 
-        <router-link class="blue-btn" to="/rooms">Login</router-link>
-        <br>
+        <input class="blue-btn" type="submit" value="Login" />
+        <br />
         <router-link class="blue-btn" to="/register">Register</router-link>
       </div>
     </form>
@@ -30,73 +23,27 @@
 </template>
 
 <script>
-import { reactive, onMounted, ref } from "vue";
-import db from "../db";
+import { ref } from "vue";
 import firebase from "firebase";
 export default {
   setup() {
     const password = ref("");
-    const inputUsername = ref("");
-    const inputMessage = ref("");
-    const state = reactive({
-      username: "",
-      messages: [],
-    });
+    const email = ref("");
     const Login = () => {
-      if (inputUsername.value != "" || inputUsername.value != null) {
-        state.username = inputUsername.value;
-        inputUsername.value = "";
-      }
-
       firebase
         .auth()
-        .signInWithEmailAndPassword(this.inputUsername, this.password)
+        .signInWithEmailAndPassword(email.value, password.value)
         .then((user) => {
-          this.$router.push("/rooms");
+          document.location.href = "/#/rooms";
         })
         .catch((e) => {
           alert(e.message);
-        })
-    };
-
-    const Logout = () => {
-      state.username = "";
-    };
-    const SendMessage = () => {
-      const messagesRef = db.database().ref("messages");
-      if (inputMessage.value === "" || inputMessage.value === null) {
-        return;
-      }
-      const message = {
-        username: state.username,
-        content: inputMessage.value,
-      };
-      messagesRef.push(message);
-      inputMessage.value = "";
-    };
-    onMounted(() => {
-      const messagesRef = db.database().ref("messages");
-      messagesRef.on("value", (snapshot) => {
-        const data = snapshot.val();
-        let messages = [];
-        Object.keys(data).forEach((key) => {
-          messages.push({
-            id: key,
-            username: data[key].username,
-            content: data[key].content,
-          });
         });
-        state.messages = messages;
-      });
-    });
+    };
     return {
       password,
-      inputUsername,
+      email,
       Login,
-      state,
-      inputMessage,
-      SendMessage,
-      Logout,
     };
   },
 };
