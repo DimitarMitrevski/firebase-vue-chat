@@ -7,6 +7,7 @@ import Chat1 from "../views/Chat1.vue"
 import Chat2 from "../views/Chat2.vue"
 import Chat3 from "../views/Chat3.vue"
 import Chat4 from "../views/Chat4.vue"
+import PrivateChat from "../views/PrivateChat.vue";
 
 const routes = [
   {
@@ -48,6 +49,11 @@ const routes = [
     path: "/chat4",
     name: "Chat4",
     component: Chat4,
+  },
+  {
+    path: "/privateChat",
+    name: "PrivateChat",
+    component: PrivateChat,
   }
 ];
 
