@@ -1,17 +1,15 @@
 import firebase from "firebase/app";
 import "firebase/database";
-import "firebase/firestore"
+
 const config = {
-  apiKey: "AIzaSyByYD1ZdxGgNG1SgFAkIOaRs74M9384Gx4",
-  authDomain: "fir-vue-chat-72ac2.firebaseapp.com",
-  databaseURL: "https://fir-vue-chat-72ac2-default-rtdb.firebaseio.com",
-  projectId: "fir-vue-chat-72ac2",
-  storageBucket: "fir-vue-chat-72ac2.appspot.com",
-  messagingSenderId: "654791417974",
-  appId: "1:654791417974:web:e60da6ef41d856ae2fbf57"
+  apiKey: "AIzaSyBZE3XkqNRVdIlFENPC03ndfhyvi7KnhEk",
+  authDomain: "firechat-vue-7a095.firebaseapp.com",
+  projectId: "firechat-vue-7a095",
+  storageBucket: "firechat-vue-7a095.appspot.com",
+  messagingSenderId: "1063738605605",
+  appId: "1:1063738605605:web:9bee19de774ad37f187fcc",
+  measurementId: "G-XYJZ9X3CL5",
 };
 
 const db = firebase.initializeApp(config);
-
-export const rt = firebase.firestore();
 export default db;
