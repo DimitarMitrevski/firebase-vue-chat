@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="createChat">Create a chat</button>
+    <button class="grey-btn" @click="createChat">Create a chat</button>
     <div class="grid-container">
       <div class="chat" v-for="(chat, i) in state.chats" :key="i">
         <router-link class="item" :to="`/chat/${chat.id}`"
@@ -75,6 +75,25 @@ body {
   margin: 10px auto;
   padding: 0px 40px 0px 40px;
 }
+
+.grey-btn {
+          appearance: none;
+          border: none;
+          outline: none;
+          background: none;
+          text-decoration: none;
+          display: block;
+          width: 100%;
+          padding: 10px 15px;
+          background-color: rgb(113, 192, 238);
+          border-radius: 8px;
+          color: black;
+          font-size: 18px;
+          font-weight: 700;
+          text-align: center;
+
+          
+        }
 
 .grid-container > div {
   background-color: rgba(255, 255, 255, 0.8);
