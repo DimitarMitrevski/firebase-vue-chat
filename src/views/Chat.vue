@@ -1,8 +1,8 @@
 <template>
   <div class="view chat">
     <header>
-      <button class="logout" @click="Logout">Logout</button>
       <h1>Welcome to Chat {{ $route.params.br }}</h1>
+      <router-link to="/rooms">Rooms</router-link>
     </header>
 
     <section class="chat-box">
@@ -35,19 +35,21 @@
 </template>
 <script>
 import { reactive, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 import db from "../db";
 export default {
   setup() {
+    const route = useRoute();
     const inputMessage = ref("");
+
+    const user = db.auth().currentUser;
     const state = reactive({
-      username: "",
+      username: user.displayName,
       messages: [],
     });
-    const Logout = () => {
-      state.username = "";
-    };
+
     const SendMessage = () => {
-      const messageRef = db.database().ref("messages");
+      const messageRef = db.database().ref(`chats/${route.params.br}/messages`);
       if (inputMessage.value === "" || inputMessage.value === null) {
         return;
       }
@@ -59,7 +61,7 @@ export default {
       inputMessage.value = "";
     };
     onMounted(() => {
-      const messageRef = db.database().ref("messages");
+      const messageRef = db.database().ref(`chats/${route.params.br}/messages`);
       messageRef.on("value", (snapshot) => {
         const data = snapshot.val();
         let messages = [];
@@ -77,7 +79,6 @@ export default {
       state,
       inputMessage,
       SendMessage,
-      Logout,
     };
   },
 };

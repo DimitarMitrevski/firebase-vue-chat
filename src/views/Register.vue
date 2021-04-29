@@ -3,10 +3,15 @@
     <form class="login-form" @submit.prevent="Register">
       <div class="form-inner">
         <h1>Register to the chat</h1>
+        <label for="username">username</label>
+        <input
+          type="text"
+          v-model="username"
+          placeholder="Enter your username"
+        />
 
         <label for="username">Email</label>
-        <input type="email" v-model="email" 
-        placeholder="Enter your email" />
+        <input type="email" v-model="email" placeholder="Enter your email" />
 
         <label for="password">Password</label>
         <input
@@ -16,7 +21,6 @@
         />
 
         <input class="blue-btn" type="submit" value="Register" />
-        
       </div>
     </form>
   </div>
@@ -29,16 +33,27 @@ export default {
   setup() {
     const email = ref("");
     const password = ref("");
+    const username = ref("");
 
     const Register = () => {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email.value, password.value)
-        .then((user) => {
-          // user.updateProfie({
-          //   dispalyName:inputUsername.value
-          // })
-          alert(user);
+        .then((user1) => {
+          var user = firebase.auth().currentUser;
+          user
+            .updateProfile({
+              displayName: username.value,
+              photoURL: "https://example.com/jane-q-user/profile.jpg",
+            })
+            .then(() => {
+              // Update successful.
+              document.location.href = "/#/login";
+            })
+            .catch((error) => {
+              // An error happened.
+              console.log(error.message);
+            });
         })
         .catch((err) => alert(err.message));
     };
@@ -47,6 +62,7 @@ export default {
       email,
       password,
       Register,
+      username,
     };
   },
 };

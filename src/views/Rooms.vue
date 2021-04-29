@@ -7,6 +7,10 @@
           >Chat {{ chat.id }}</router-link
         >
         <p>This chat is created by:{{ chat.createdBy }}</p>
+        <p>
+          This chat was created at
+          {{ date(chat.timestamp) }}
+        </p>
       </div>
     </div>
   </div>
@@ -20,6 +24,12 @@ export default defineComponent({
     return {
       chats: [{ uid: 1 }, { uid: 2 }, { uid: 3 }],
     };
+  },
+  methods: {
+    date(time) {
+      const date = new Date(time);
+      return date.toUTCString();
+    },
   },
   setup() {
     const state = reactive({
@@ -36,7 +46,7 @@ export default defineComponent({
       await db
         .database()
         .ref(`/chats/${key}`)
-        .set({ createdBy: user.email })
+        .set({ createdBy: user.displayName, timestamp: Date.now() })
         .then(() => console.log("success"))
         .catch((e) => console.log(e));
     };
@@ -49,9 +59,20 @@ export default defineComponent({
           chats.push({
             id: key,
             createdBy: data[key].createdBy,
+            timestamp: data[key].timestamp,
           });
         });
-        state.chats = chats;
+        state.chats = chats.sort((a, b) => {
+          const aTime = a.timestamp;
+          const bTime = b.timestamp;
+          let comparison = 0;
+          if (aTime > bTime) {
+            comparison = -1;
+          } else if (bTime > aTime) {
+            comparison = 1;
+          }
+          return comparison;
+        });
       });
     });
     return {
@@ -77,23 +98,21 @@ body {
 }
 
 .grey-btn {
-          appearance: none;
-          border: none;
-          outline: none;
-          background: none;
-          text-decoration: none;
-          display: block;
-          width: 100%;
-          padding: 10px 15px;
-          background-color: rgb(113, 192, 238);
-          border-radius: 8px;
-          color: black;
-          font-size: 18px;
-          font-weight: 700;
-          text-align: center;
-
-          
-        }
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  background-color: rgb(113, 192, 238);
+  border-radius: 8px;
+  color: black;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
 
 .grid-container > div {
   background-color: rgba(255, 255, 255, 0.8);
