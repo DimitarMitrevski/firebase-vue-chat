@@ -2,11 +2,17 @@
   <div>
     <header>
       <ul class="nav">
-        <li><router-link to="/login">Login</router-link></li>
-        |
-        <li><router-link to="/register">Register</router-link></li>
-        |
-        <button class="logout" @click="Logout">Logout</button>
+        <li v-if="state.user == null">
+          <router-link to="/login">Login</router-link> |
+        </li>
+
+        <li v-if="state.user == null">
+          <router-link to="/register">Register</router-link>|
+        </li>
+        <li v-if="state.user != null">@{{ state.user.displayName }} |</li>
+        <button v-if="state.user != null" class="logout" @click="Logout">
+          Logout
+        </button>
       </ul>
     </header>
     <router-view />
@@ -14,23 +20,47 @@
 </template>
 
 <script>
-import { onBeforeMount } from "vue";
+import { onBeforeMount, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import firebase from "firebase";
 export default {
   setup() {
     const router = useRouter();
     const route = useRoute();
-    onBeforeMount(() => {
-      // firebase.auth().onAuthStateChanged((user) => {
-      //   if(!user) {
-      //     router.replace('/login');
-      //   } else if (route.path == "/login" || route.path ==
-      //   '/register') {
-      //     router.replace('/');
-      //   }
-      // });
+    const state = reactive({
+      user: null,
     });
+    onBeforeMount(() => {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          state.user = user;
+          if (route.path == "/login" || route.path == "/register") {
+            router.replace("/rooms");
+          }
+        } else {
+          state.user = null;
+          router.replace("/login");
+        }
+        // router.replace('/login');
+        // } else if (route.path == "/login" || route.path ==
+        // '/register') {
+        //   router.replace('/');
+        // }
+      });
+    });
+    const Logout = () => {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          console.log("Successful signout!");
+        })
+        .catch((e) => console.log(e));
+    };
+    return {
+      state,
+      Logout,
+    };
   },
 };
 </script>
@@ -45,7 +75,7 @@ ul {
 }
 
 li a {
-  display: inline-block;
+  display: inline;
   color: black;
   text-align: center;
   padding: 10px 16px;
