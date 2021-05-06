@@ -36,25 +36,25 @@ const routes = [
     path: "/register",
     name: "Register",
     component: Register,
-    beforeEnter: [blockRoutes],
+    beforeMount: [blockRoutes],
   },
   {
     path: "/login",
     name: "Login",
     component: Login,
-    beforeEnter: [blockRoutes],
+    beforeMount: [blockRoutes],
   },
   {
     path: "/rooms",
     name: "Rooms",
     component: Rooms,
-    beforeEnter: [isAuthenticated],
+    beforeMount: [isAuthenticated],
   },
   {
     path: "/chat/:br",
     name: "Chat",
     component: Chat,
-    beforeEnter: [isAuthenticated],
+    beforeMount: [isAuthenticated],
   },
 ];
 
