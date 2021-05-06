@@ -10,23 +10,19 @@ function isAuthenticated(to, from, next) {
   const user = firebase.auth().currentUser;
   if (user) {
     next();
-    return true;
   } else {
     next({
       path: "/login",
       query: { redirect: to.fullPath },
     });
-    return false;
   }
 }
 function blockRoutes(to, from, next) {
   const user = firebase.auth().currentUser;
   if (user) {
     next({ path: "/rooms" });
-    return true;
   } else {
     next();
-    return false;
   }
 }
 
